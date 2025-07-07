@@ -153,7 +153,7 @@ class _CameraScanScreenState extends State<CameraScanScreen>
 
     try {
       await _initializeControllerFuture;
-      final burst = await _captureBurst(count: 5);
+      final burst = await _captureBurst(count: 2);
       double bestScore = -1.0;
       img.Image? bestImage;
       for (final file in burst) {

@@ -1,5 +1,5 @@
 .venv/
-.tests/
+tests/
 cnic_detection_app/build
 cnic_detection_app/.dart_tool
 cnic_detection_app/.flutter_plugins
