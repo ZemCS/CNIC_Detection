@@ -28,7 +28,7 @@ class _CameraScanScreenState extends State<CameraScanScreen>
   Uint8List? _frontImageBytes;
   Uint8List? _backImageBytes;
 
-  final String _apiUrl = 'http://192.168.18.112:5000/cnic';
+  final String _apiUrl = 'http://192.168.18.155:5000/cnic';
 
   @override
   void initState() {

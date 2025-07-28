@@ -193,6 +193,6 @@ def predict_cnic(image_path, model_path, conf_threshold=0.5):
 
 
 if __name__ == "__main__":
-    image_path = r"c:\Users\lenovo\Programming\CNIC_Detection\tests\cnic_back_ud.jpg"
+    image_path = r"c:\Users\lenovo\Programming\CNIC_Detection\tests\half right.jpg"
     model_path = r"C:\Users\lenovo\Programming\CNIC_Detection\runs\best.pt"
     predict_cnic(image_path, model_path)

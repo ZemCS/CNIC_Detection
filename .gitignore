@@ -5,3 +5,9 @@ cnic_detection_app/.dart_tool
 cnic_detection_app/.flutter_plugins
 cnic_detection_app/.packages
 cnic_detection_app/.idea
+cnic_detection_tflite/
+runs/tiny
+onxx_testing.py
+output.json
+tflite.py
+requirements_tflite.txt

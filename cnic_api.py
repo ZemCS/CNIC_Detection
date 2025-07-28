@@ -7,77 +7,27 @@ import json
 import numpy as np
 from paddleocr import PaddleOCR
 from werkzeug.utils import secure_filename
+from waitress import serve
 
 app = Flask(__name__)
 
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-MODEL_PATH = r"C:\Users\lenovo\Programming\CNIC_Detection\runs\best.pt"
+MODEL_PATH = r"C:\Users\lenovo\Programming\cnic_detection\runs\tiny\best.pt"
 OUTPUT_PATH = r"C:\Users\lenovo\Programming\CNIC_Detection\output.json"
 cnic_data = {'front': {}, 'back': {}}
 
 import cv2
 import numpy as np
 
-def preprocess_image(image: np.ndarray) -> np.ndarray:
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Step 1: Estimate brightness
-    mean_brightness = np.mean(gray)
-
-    # Step 2: Adaptive CLAHE
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-    equalized = clahe.apply(gray)
-
-    # Step 3: Adaptive denoising based on brightness
-    if mean_brightness < 80:
-        # Dim image – preserve detail, enhance contrast, minimal denoise
-        h = 10
-        alpha = 1.4
-        beta = 30
-    elif mean_brightness > 170:
-        # Overexposed – reduce brightness, strong denoise
-        h = 25
-        alpha = 1.0
-        beta = -20
-    else:
-        # Normal lighting
-        h = 20
-        alpha = 1.2
-        beta = 15
-
-    denoised = cv2.fastNlMeansDenoising(equalized, None, h=h, templateWindowSize=7, searchWindowSize=35)
-
-    # Optional: median blur to remove fine noise (skip for dim images)
-    if mean_brightness >= 80:
-        denoised = cv2.medianBlur(denoised, 3)
-
-    # Sharpening
-    kernel = np.array([[-1, -1, -1],
-                       [-1,  9, -1],
-                       [-1, -1, -1]])
-    sharpened = cv2.filter2D(denoised, -1, kernel)
-
-    # Brightness/contrast adjustment
-    bright_contrast = cv2.convertScaleAbs(sharpened, alpha=alpha, beta=beta)
-
-    # Optional: bilateral smoothing (skip for dim images)
-    if mean_brightness >= 80:
-        final = cv2.bilateralFilter(bright_contrast, d=7, sigmaColor=75, sigmaSpace=75)
-    else:
-        final = bright_contrast  # retain texture in dark images
-    blurred = cv2.GaussianBlur(image, (5, 5), 0)
-    alpha = 1.15
-    beta = 11
-    adjusted = cv2.convertScaleAbs(blurred, alpha=alpha, beta=beta)
-    cv2.imshow('Processed', adjusted)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-    return adjusted
-
-
 def extract_text(image: np.ndarray) -> str:
-    # preprocessed_image = preprocess_image(image)
+    # results = pytesseract.image_to_data(image, output_type=pytesseract.Output.DICT)
+    # all_text = []
+    # for i in range(len(results['text'])):
+    #     txt = results['text'][i].strip()
+    #     if txt:
+    #         all_text.append(txt)
+    #         print(f"text: {txt}")
+    # return "\n".join(all_text)
     ocr = PaddleOCR(use_textline_orientation=True, lang='en')
     results = ocr.ocr(image)
     all_text = []
@@ -285,4 +235,4 @@ def detect_cnic():
         return jsonify({'error': f'Error processing image: {str(e)}'}), 500
     
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', debug=True)

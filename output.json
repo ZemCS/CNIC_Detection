@@ -1,15 +1,15 @@
 {
     "front": {
-        "Name": "Syed Khadeen Faiz Shah",
-        "Father Name": "Syed Azmat Ali Shah",
-        "Gender": "M",
+        "Name": "Abu Hurraira",
+        "Father Name": "Riaz Ul Hag Hamayun",
         "Country of Stay": "Pakistan",
-        "Identity Number": "17301-2538454-7",
-        "Date of Birth": "01.11.2003",
-        "Date of Issue": "03.02.2022",
-        "Date of Expiry": "03.02.2032"
+        "Date of Birth": "22.10.1999",
+        "Identity Number": "35201-6956651-5",
+        "Date of Issue": "30.10.2027",
+        "Date of Expiry": "30.10.2017",
+        "isCNIC?": "True"
     },
     "back": {
-        "Identity Number": "17301-2538454-7"
+        "Identity Number": "35201-6956651-5"
     }
 }
